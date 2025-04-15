@@ -13,11 +13,11 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# Copy the .env.example file to .env
-COPY .env .env
+RUN curl -o wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
+  && chmod +x wait-for-it.sh
 
 # Expose the port that the app will run on
 EXPOSE 3000
 
-# Command to run the application
-CMD ["npm", "run", "start:dev"]
+# Run wait-for-it.sh to wait for the MySQL service, then run migrations and start the app
+CMD ["sh", "-c", "./wait-for-it.sh mysql:3306 -- npm run migrate && npm run start:dev"]
