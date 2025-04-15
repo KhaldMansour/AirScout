@@ -2,8 +2,8 @@
 FROM node:20-alpine
 
 
-# Install curl
-RUN apk add --no-cache curl
+RUN apk add --no-cache curl bash \
+  && curl -sSL https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz | tar -C /usr/local/bin -xz
 
 # Set the working directory inside the container
 WORKDIR /usr/src/app
@@ -17,11 +17,8 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-RUN curl -o wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
-  && chmod +x wait-for-it.sh
-
 # Expose the port that the app will run on
 EXPOSE 3000
 
-# Run wait-for-it.sh to wait for the MySQL service, then run migrations and start the app
-CMD ["sh", "-c", "./wait-for-it.sh mysql:3306 -- npm run migrate && npm run start:dev"]
+# Run dockerize to wait for the MySQL service, then run migrations and start the app
+CMD ["dockerize", "-wait", "tcp://mysql:3306", "-timeout", "5s", "npm", "run", "migrate", "&&", "npm", "run", "start:dev"]
