@@ -37,6 +37,11 @@ jobs:
       - name: Run Lint inside Docker container
         run: |
           docker-compose exec -T app sh -c "npm run lint"
+      
+      # Step 6: Run Lint inside Docker container
+      - name: Run logs inside Docker container
+        run: |
+          docker-compose logs app
 
       # Step 7: Tear down containers after linting
       - name: Tear down containers
