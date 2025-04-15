@@ -1,0 +1,45 @@
+name: Backend (Tests) CI with Docker
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Docker Buildx (for multi-platform builds)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      # Step 3: Install Docker Compose
+      - name: Set up Docker Compose
+        run: |
+          sudo apt-get install -y docker-compose
+
+      # Step 4: Build and start containers with Docker Compose
+      - name: Build and start containers
+        run: |
+          docker-compose up -d --build
+
+
+      # Step 6: Run Tests inside Docker container with coverage
+      - name: Run Tests inside Docker container with coverage
+        run: |
+          docker-compose exec -T app sh -c "npm run test -- --coverage"
+
+      # Step 9: Tear down containers after tests
+      - name: Tear down containers
+        run: |
+          docker-compose down
