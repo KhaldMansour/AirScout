@@ -21,7 +21,7 @@ AirScout is a backend RESTful API built with **NestJS**, connected to a **MySQL*
 
 ### 1. Clone the Repository
 
-`git clone https://github.com/your-username/air-scout-api.git`  
+`git clone git@github.com:KhaldMansour/AirScout.git`  
 `cd air-scout-api`
 
 ### 2. Environment Setup
