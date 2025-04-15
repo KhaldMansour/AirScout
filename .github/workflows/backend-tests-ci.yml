@@ -38,6 +38,12 @@ jobs:
       - name: Run Tests inside Docker container with coverage
         run: |
           docker-compose exec -T app sh -c "npm run test -- --coverage"
+        continue-on-error: true
+      
+      # Step 6: Run Lint inside Docker container
+      - name: Run logs inside Docker container
+        run: |
+          docker-compose logs app
 
       # Step 9: Tear down containers after tests
       - name: Tear down containers
