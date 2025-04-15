@@ -21,4 +21,4 @@ COPY . .
 EXPOSE 3000
 
 # Run dockerize to wait for the MySQL service, then run migrations and start the app
-CMD ["dockerize", "-wait", "tcp://mysql:3306", "-timeout", "5s", "npm", "run", "migrate", "&&", "npm", "run", "start:dev"]
+CMD ["dockerize", "-wait", "tcp://mysql:3306", "-timeout", "15s", "npm", "run", "migrate", "&&", "npm", "run", "start:dev"]
