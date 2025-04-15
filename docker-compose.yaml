@@ -13,8 +13,7 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules 
-    # command: /bin/sh -c "./wait-for-it.sh mysql-db:3306 -- npm run migrate && npm run start:dev"
-
+    command: /bin/sh -c "npm run migrate && npm run start:dev"
 
   mysql:
     image: mysql:8.0
